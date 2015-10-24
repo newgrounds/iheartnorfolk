@@ -13,7 +13,7 @@ gulp.task('connect', function () {
 
 // lint task to keep my JS in check
 gulp.task('lint', function () {
-    return gulp.src(['js/*.js', '*.js'])
+    return gulp.src('js/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(connect.reload());
@@ -35,7 +35,7 @@ gulp.task('html', function () {
 
 // look for changes
 gulp.task('watch', function () {
-    gulp.watch(['js/*.js', '*.js'], ['lint']);
+    gulp.watch('js/*.js', ['lint']);
     gulp.watch('scss/*.scss', ['sass']);
     gulp.watch('*.html', ['html']);
 });
