@@ -49,7 +49,13 @@ body {
     right: 0;
     height: 100%;
     width: 34px;
-    background: linear-gradient(left, transparent, rgba(0, 0, 0, 0.4)); }
+    background: linear-gradient(left, transparent, rgba(0, 0, 0, 0.4));
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, transparent), color-stop(100%, rgba(0, 0, 0, 0.4)), color-stop(40%, transparent));
+    /* Chrome, Safari4+ */
+    background: -webkit-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.4) 100%, transparent 40%);
+    /* Chrome10+, Safari5.1+ */
+    background: -moz-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.4) 100%, transparent 40%);
+    /* FF3.6+ */ }
 
 #main-nav:target {
   width: 20%; }
