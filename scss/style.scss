@@ -21,10 +21,6 @@ body {
     padding: 15px;
 }
 
-.close-menu {
-    display: none;
-}
-
 .navigation {
     position: fixed;
     top: 0;
@@ -61,19 +57,20 @@ body {
     }
 }
 
-#main-nav:target {
+#main-nav.target {
     width: 20%;
 }
 
-#main-nav:target + .page-wrap {
+#main-nav.target + .page-wrap {
     width: 80%;
-    
-    .open-menu {
-        display: none; 
-    }
-    .close-menu {
-        display: inline-block;
-    }
+}
+
+.head-wrap {
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(40,40,46,0.4);
+    top: 0;
+    width: 400px;
 }
 
 #logo {
@@ -86,4 +83,58 @@ body {
 
 .heart {
     color: red;
+}
+
+.pic-info {
+    padding: 10px;
+    color: white;
+}
+
+#image-holder {
+    top: 100px;
+    display: block;
+    position: relative;
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+    perspective: 1000;
+    display: inline-block;
+}
+/* flip the pane when hovered */
+.flip-container.flip .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+    width: 320px;
+    height: 320px;
+}
+
+/* flip speed goes here */
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+/* front pane, placed above back */
+.front {
+    z-index: 2;
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+    transform: rotateY(180deg);
 }

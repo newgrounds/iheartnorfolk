@@ -9,30 +9,33 @@
         <title>I Heart Norfolk</title>
     
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/animate.css">
     </head>
     <body>
         <nav id="main-nav" class="navigation">
-           <a href="#all">all</a>
-           <a href="#norfolkva">#norfolkva</a>
-           <a href="#fieldguidenfk">#fieldguidenfk</a>
-           <a href="#growinteractive">#growinteractive</a>
+           <a onclick="Insta.filterClick('all')">all</a>
+           <a onclick="Insta.filterClick('norfolkva')">#norfolkva</a>
+           <a onclick="Insta.filterClick('fieldguidenfk')">#fieldguidenfk</a>
+           <a onclick="Insta.filterClick('growinteractive')">#growinteractive</a>
         </nav>
         
         <div class="page-wrap">
-            <a href="#main-nav" class="open-menu ham-menu">
-                &#9776;
-            </a>
-            <a href="#" class="close-menu ham-menu">
-                &#9776;
-            </a>
+            <div class="head-wrap">
+                <a href="#main-nav" class="ham-menu">
+                    &#9776;
+                </a>
+                
+                <div id="logo">I <span class="heart">&#9829;</span> Norfolk</div>
+            </div>
             
-            <div id="logo">I <span class="heart">&#9829;</span> Norfolk</div>
+            <div id="image-holder"></div>
         </div>
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="js/index.js"></script>
         <script>
-            Insta.getInstaPics();
+            Insta.setup();
+            Insta.filterClick("all");
         </script>
     </body>
 </html>
