@@ -13,10 +13,10 @@
     </head>
     <body>
         <nav id="main-nav" class="navigation">
-           <a onclick="Insta.filterClick('all')">all</a>
-           <a onclick="Insta.filterClick('norfolkva')">#norfolkva</a>
-           <a onclick="Insta.filterClick('fieldguidenfk')">#fieldguidenfk</a>
-           <a onclick="Insta.filterClick('growinteractive')">#growinteractive</a>
+           <a id="all-btn" onclick="Insta.filterClick('all', this)" class="active">all</a>
+           <a onclick="Insta.filterClick('norfolkva', this)">#norfolkva</a>
+           <a onclick="Insta.filterClick('fieldguidenfk', this)">#fieldguidenfk</a>
+           <a onclick="Insta.filterClick('growinteractive', this)">#growinteractive</a>
         </nav>
         
         <div class="page-wrap">
@@ -29,13 +29,14 @@
             </div>
             
             <div id="image-holder"></div>
+            <div id="temp-holder"></div>
         </div>
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="js/index.js"></script>
         <script>
             Insta.setup();
-            Insta.filterClick("all");
+            Insta.filterClick("all", $("#all-btn"));
         </script>
     </body>
 </html>

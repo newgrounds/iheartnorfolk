@@ -9,7 +9,7 @@ Create an "I heart Norfolk" demo site.
 
 ~~Build a page based on the attached Photoshop files.~~
 
-Pay attention to asset loading and be prepared to discuss the stack and methodology you choose to for your architecture.
+~~Pay attention to asset loading and be prepared to discuss the stack and methodology you choose to for your architecture.~~
 
 ~~Try to use a build tool such as Grunt or Gulp.~~
 
@@ -17,23 +17,23 @@ Pay attention to asset loading and be prepared to discuss the stack and methodol
 
 ~~Use the Instagram API to pull in photos:~~
     ~~tagged with #norfolkva or #fieldguidenfk~~
-    from the growinteractive user account. (Does this mean #growinteractive or something else?)
+    ~~from the growinteractive user account.~~ (Does this mean #growinteractive or something else?)
 
 ~~Consolidate photos so that there are no duplicates and sort by newest first.~~
 (Do they mean duplicates that have both hashtags? or actually somehow checking the images?)
 
-After the javascript has loaded photos from the API, animate photos onto the screen.
+~~After the javascript has loaded photos from the API, animate photos onto the screen.~~
 
 ~~The user should be able to click on a photo, which will animate with a card flip to show details on the back of the photo such as username, location, date, etc.~~
 
-Paginate results with either links or “infinite scroll” functionality.
+~~Paginate results with either links or “infinite scroll” functionality.~~
 (How does pagination handle sorting by newest first? I assume the new images should just be sorted against other new images)
 
-Build asynchronous filters to allow the user to see:
-    All
-    #norfolkva
-    #fieldguidenfk
-    #growinteractive
+~~Build asynchronous filters to allow the user to see:~~
+    ~~All~~
+    ~~#norfolkva~~
+    ~~#fieldguidenfk~~
+    ~~#growinteractive~~
 
 Delivery should include a links to both the staged website and code repository.
 

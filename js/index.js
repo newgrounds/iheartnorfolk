@@ -11,6 +11,12 @@ var Insta = (function () {
     // loaded images
     var numLoaded = 0;
     
+    // currently selected filter
+    var currentFilter = "all";
+    
+    // dictionary of tags mapped to the url of the next page
+    var tagURLs = {};
+    
     // flip image
     function flip (obj) {
         $(obj.currentTarget).toggleClass('flippy');
@@ -32,7 +38,7 @@ var Insta = (function () {
         // create object to hold downloaded image
         var downImage = new Image();
         //$(downImage).hide();
-        $("#image-holder").hide();
+        //$("#image-holder").hide();
         
         // create divs
         // source for the flip: http://davidwalsh.name/css-flip
@@ -68,9 +74,9 @@ var Insta = (function () {
         
         // place the images in the correct position
         if (pos === 0) {
-            $("#image-holder").prepend($container);
+            $("#temp-holder").prepend($container);
         } else {
-            $("#image-holder > .flip-container:nth-child(" + (pos - 1) + ")").after($container);
+            $("#temp-holder > .flip-container:nth-child(" + (pos - 1) + ")").after($container);
         }
         
         // show the images once they've all loaded
@@ -80,11 +86,19 @@ var Insta = (function () {
             
             // sort and display images once they're all loaded
             if (numLoaded >= pics.length) {
+                // move all children from temp-holder to image-holder
+                $("#temp-holder").children().appendTo("#image-holder");
+                
                 // animate showing the images
-                $("#image-holder").show().addClass("animated fadeIn");
-                // messing around with some animations on individual children
+                //$("#image-holder").show().addClass("animated fadeIn");
+                
+                // animate the children... there's something weird about that comment
+                // ... especially around halloween
                 $.each($("#image-holder").children(), function (index, value) {
-                    $(value).addClass("animated pulse");
+                    $(value).addClass("animated fadeIn");
+                    // we can do multiple animations this way
+                    //$(value).find(".front").addClass("animated pulse");
+                    //.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
                 });
             }
         };
@@ -130,18 +144,60 @@ var Insta = (function () {
     };
 
     // handle clicks on the different filters
-    function filterClick (filter) {
+    function filterClick (filter, btn) {
+        // set nav menu button active
+        $.each($("#main-nav").children(), function (index, value) {
+            $(value).removeClass("active");
+        });
+        $(btn).addClass("active");
+        
+        // close nav menu
+        $(".ham-menu").trigger("click");
+        
+        // set urls back to default
+        tagURLs.norfolkva = "https://api.instagram.com/v1/tags/norfolkva/media/recent?client_id=" + client_id;
+        tagURLs.fieldguidenfk = "https://api.instagram.com/v1/tags/fieldguidenfk/media/recent?client_id=" + client_id;
+        tagURLs.growinteractive = "https://api.instagram.com/v1/tags/growinteractive/media/recent?client_id=" + client_id;
+        
+        // keep track of selected filter
+        currentFilter = filter;
+        
+        // number to remove
+        var numRemove = $("#image-holder").children().length;
+        
+        if (numRemove <= 0) {
+            $("#image-holder").empty();
+            filterHandler();
+        }
+        
+        // fade out the images before removing
+        $.each($("#image-holder").children(), function (index, value) {
+            $(value).removeClass("animated fadeIn").addClass("fadeOut");
+            $(value).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                numRemove--;
+                // if we've removed all of the images, empty the image holder & load new images
+                if (numRemove <= 0) {
+                    $("#image-holder").empty();
+                    filterHandler();
+                }
+            });
+        });
+    }
+    
+    // just for looping through filters
+    function filterHandler () {
         // clear pics list
         pics = [];
+        numLoaded = 0;
         
         // handle filtering all
-        if (filter == "all") {
-            getInstaPics('norfolkva');
-            getInstaPics('fieldguidenfk');
-            getInstaPics('growinteractive');
+        if (currentFilter == "all") {
+            for (var t in tagURLs) {
+                getInstaPics(t);
+            }
         } else {
             // load pics
-            getInstaPics(filter);
+            getInstaPics(currentFilter);
         }
     }
 
@@ -149,9 +205,10 @@ var Insta = (function () {
     function getInstaPics (tag) {
         $.ajax({
             dataType: "jsonp",
-            url: "https://api.instagram.com/v1/tags/" + tag + "/media/recent?client_id=" + client_id,
+            url: tagURLs[tag],
             success: function (result) {
                 if (result.data !== null) {
+                    console.log(result.pagination);
                     // iterate over the images
                     for (var d = 0; d < result.data.length; d++) {
                         var pic = result.data[d];
@@ -160,6 +217,10 @@ var Insta = (function () {
                         // add unique pic to array based on created_time -- may be combined with other queries
                         pics.pushUniqueOrdered(pic);
                     }
+                }
+                // store url of next page
+                if (result.pagination !== null && result.pagination.next_url !== null) {
+                    tagURLs[tag] = result.pagination.next_url;
                 }
             }
         });
@@ -177,11 +238,11 @@ var Insta = (function () {
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 console.log("hit bottom");
                 
-                // load more images
-                
-                
                 // TODO: make sure we don't double load when we have agressive scrollers
+                //  ... on second thought I kind of like that it loads a bunch more
                 
+                // load more images
+                filterHandler();
             }
         });
     }
