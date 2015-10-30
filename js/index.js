@@ -152,7 +152,7 @@ var Insta = (function () {
         $(btn).addClass("active");
         
         // close nav menu
-        $(".ham-menu").trigger("click");
+        $("#main-nav").removeClass("target");
         
         // set urls back to default
         tagURLs.norfolkva = "https://api.instagram.com/v1/tags/norfolkva/media/recent?client_id=" + client_id;
