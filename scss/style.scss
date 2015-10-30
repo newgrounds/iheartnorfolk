@@ -120,9 +120,6 @@ body {
     height: 20vw;
     float: left;
     
-    transition: 0.6s;
-    transform-style: preserve-3d;
-    
     animation-duration: 0.5s;
     moz-animation-duration: 0.5s;
     webkit-animation-duration: 0.5s;
@@ -155,8 +152,15 @@ body {
 }
 
 /* flip the pane when hovered */
-.flip-container.flippy {
+.flip-container.flippy .flipper {
     transform: rotateY(180deg);
+}
+
+/* flip speed goes here */
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
 }
 
 .front, .back {
