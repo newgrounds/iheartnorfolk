@@ -44,7 +44,7 @@ var Insta = (function () {
         // source for the flip: http://davidwalsh.name/css-flip
         var $container = $("<div>", {class: "flip-container"});
         $container.click(flip);
-        var $flipper = $("<div>", {class: "flipper"});
+        //var $flipper = $("<div>", {class: "flipper"});
         var $front = $("<div>", {class: "front"});
         var $back = $("<div>", {class: "back"});
         
@@ -67,9 +67,11 @@ var Insta = (function () {
         // nest divs
         $front.append(downImage);
         $back.append($backContent);
-        $flipper.append($front);
+        /*$flipper.append($front);
         $flipper.append($back);
-        $container.append($flipper);
+        $container.append($flipper);*/
+        $container.append($front);
+        $container.append($back);
         //$("#image-holder").append($container);
         
         // place the images in the correct position

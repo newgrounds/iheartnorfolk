@@ -97,11 +97,11 @@ body {
 /* entire container, keeps perspective */
 .flip-container {
   perspective: 1000;
-  /*display: inline-block;*/
   width: 20%;
   height: 320px;
-  /*min-width: 300px;*/
   float: left;
+  transition: 0.6s;
+  transform-style: preserve-3d;
   animation-duration: 0.5s;
   moz-animation-duration: 0.5s;
   webkit-animation-duration: 0.5s;
@@ -124,18 +124,12 @@ body {
     width: 100%; } }
 
 /* flip the pane when hovered */
-.flip-container.flippy .flipper {
+.flip-container.flippy {
   transform: rotateY(180deg); }
 
 .front, .back {
   width: 100%;
   height: auto; }
-
-/* flip speed goes here */
-.flipper {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-  position: relative; }
 
 /* hide back of pane during swap */
 .front, .back {
@@ -150,6 +144,9 @@ body {
   z-index: 2;
   /* for firefox 31 */
   transform: rotateY(0deg); }
+  .front img {
+    width: 100%;
+    height: auto; }
 
 /* back, initially hidden pane */
 .back {
