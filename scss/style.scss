@@ -102,7 +102,7 @@ body {
     display: inline-block;
 }
 /* flip the pane when hovered */
-.flip-container.flip .flipper {
+.flip-container.flippy .flipper {
     transform: rotateY(180deg);
 }
 

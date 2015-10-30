@@ -13,7 +13,7 @@ var Insta = (function () {
     
     // flip image
     function flip (obj) {
-        $(obj.currentTarget).toggleClass('flip');
+        $(obj.currentTarget).toggleClass('flippy');
     }
     
     // format date from timestamp
