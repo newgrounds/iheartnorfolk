@@ -52,13 +52,13 @@ var Insta = (function () {
         var $backContent = $("<div>", {class: "pic-info"});
         // username
         if (item.user) {
-            $backContent.append($("<p>"+item.user.username+"</p>"));
+            $backContent.append($("<p>"+item.user.username+"</p><br/>"));
         }
         // location
         if (item.location) {
-            $backContent.append($("<p>"+item.location.name+"</p>"));
+            $backContent.append($("<p>"+item.location.name+"</p><br/>"));
         }
-        $backContent.append($("<p>"+date+"</p>"));
+        $backContent.append($("<p>"+date+"</p><br/>"));
         // caption
         if (item.caption) {
             $backContent.append($("<p>"+item.caption.text+"</p>"));
@@ -92,13 +92,14 @@ var Insta = (function () {
                 // animate showing the images
                 //$("#image-holder").show().addClass("animated fadeIn");
                 
-                // animate the children... there's something weird about that comment
+                // animate the children... there's something weird about this comment
                 // ... especially around halloween
                 $.each($("#image-holder").children(), function (index, value) {
                     $(value).addClass("animated fadeIn");
                     // we can do multiple animations this way
                     //$(value).find(".front").addClass("animated pulse");
                     //.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
+                    //transition: height 0.3s ease, width 0.3s ease;
                 });
             }
         };
@@ -226,6 +227,25 @@ var Insta = (function () {
         });
     }
     
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    }
+    
     // setup the page
     function setup () {
         // for displaying the sidebar
@@ -233,13 +253,28 @@ var Insta = (function () {
             $("#main-nav").toggleClass("target");
         });
         
+        // remove transitions from images
+        var resizeBeginDebounce = debounce(function () {
+            console.log("removing transitions");
+            $(".flip-container").css({'transition': 'none'});
+        }, 250, true);
+        
+        // add transitions back onto images
+        var resizeEndDebounce = debounce(function () {
+            console.log("adding transitions");
+            $(".flip-container").css({'transition': 'height 0.3s ease, width 0.3s ease'});
+        }, 250);
+        
+        $(window).resize(resizeBeginDebounce);
+        $(window).resize(resizeEndDebounce);
+        
         // determine when we hit the bottom of the page
-        $(window).scroll(function(){
+        $(window).scroll(function () {
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 console.log("hit bottom");
                 
                 // TODO: make sure we don't double load when we have agressive scrollers
-                //  ... on second thought I kind of like that it loads a bunch more
+                //  ... on second thought I kind of like that it loads a faster
                 
                 // load more images
                 filterHandler();

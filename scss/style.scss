@@ -8,10 +8,12 @@ body {
     background-color: #28282e;
 }
 
+$anim-speed: 0.3s;
+
 .page-wrap {
     width: 100%;
     float: right;
-    transition: width 0.3s ease;
+    transition: width $anim-speed ease;
     a {
         color: #ffffff;
         text-decoration: none;
@@ -31,7 +33,7 @@ body {
     height: 100%;
     background: #2c3e50;
     overflow-y: auto;
-    transition: width 0.3s ease;
+    transition: width $anim-speed ease, z-index $anim-speed ease;
     
     a {
         display: block;
@@ -56,32 +58,57 @@ body {
     
     &:after {
         content: "";
+        z-index: 3;
         position: absolute;
         top: 0;
-        right: 0;
+        right: -34px;
         height: 100%;
         width: 34px;
-        background: linear-gradient(left, rgba(black, 0), rgba(black, 0.4));
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%, transparent), color-stop(100%, rgba(black, 0.4)), color-stop(40%, transparent)); /* Chrome, Safari4+ */
-        background: -webkit-linear-gradient(left, transparent 0%, rgba(black, 0.4)  100%, transparent 40%); /* Chrome10+, Safari5.1+ */
-        background: -moz-linear-gradient(left, transparent 0%, rgba(black, 0.4) 100%, transparent 40%);    /* FF3.6+ */
+        transition: right $anim-speed ease;
+        background: linear-gradient(right, rgba(black, 0), rgba(black, 0.6));
+        background: -webkit-gradient(linear, right top, left top, color-stop(0%, transparent), color-stop(100%, rgba(black, 0.6)), color-stop(60%, transparent)); /* Chrome, Safari4+ */
+        background: -webkit-linear-gradient(right, transparent 0%, rgba(black, 0.6)  100%, transparent 40%); /* Chrome10+, Safari5.1+ */
+        background: -moz-linear-gradient(right, transparent 0%, rgba(black, 0.6) 100%, transparent 40%);    /* FF3.6+ */
     }
+}
+
+#main-nav {
+    z-index: 0;
+    overflow: visible;
+    opacity: 0;
+    transition: opacity $anim-speed ease, z-index $anim-speed ease, width $anim-speed ease;
 }
 
 #main-nav.target {
     width: 20%;
-}
-
-#main-nav.target + .page-wrap {
-    width: 80%;
+    z-index: 4;
+    opacity: 1;
+    
+    + .page-wrap {
+        width: 80%;
+            
+        .head-wrap {
+            left: 20%;
+        }
+        
+        #image-holder .flip-container {
+            height: calc(20vw * 0.8);
+        
+            .back {
+                height: calc(20vw * 0.8);
+            }
+        }
+    } 
 }
 
 .head-wrap {
     position: fixed;
-    z-index: 1000;
+    z-index: 5;
     background-color: rgba(40,40,46,0.4);
     top: 0;
+    left: 0;
     width: 400px;
+    transition: left $anim-speed ease;
 }
 
 #logo {
@@ -119,6 +146,7 @@ body {
     width: 20%;
     height: 20vw;
     float: left;
+    transition: height 0.3s ease, width 0.3s ease;
     
     animation-duration: 0.5s;
     moz-animation-duration: 0.5s;
@@ -130,24 +158,93 @@ body {
     .flip-container {
         width: 25%;
         height: 25vw;
+        
+        .back {
+            height: 25vw;
+        }
+    }
+    
+    #main-nav.target + .page-wrap #image-holder .flip-container {
+        height: calc(25vw * 0.8);
+        
+        .back {
+            height: calc(25vw * 0.8);
+        }
+    }
+}
+@media screen and (max-width: 850px) {
+    #main-nav.target {
+        width: 185px;
+        
+        + .page-wrap {
+            width: 100%;
+            
+            .head-wrap {
+                left: 185px;
+            }
+            
+            #image-holder .flip-container {
+                height: 25vw;
+                
+                .back {
+                    height: 25vw;
+                }
+            }
+        }
     }
 }
 @media screen and (max-width: 800px) {
     .flip-container {
         width: 33.33%;
         height: 33.33vw;
+        
+        .back {
+            height: 33.33vw;
+        }
+    }
+    
+    #main-nav.target + .page-wrap #image-holder .flip-container {
+        height: 33.33vw;
+        
+        .back {
+            height: 33.33vw;
+        }
     }
 }
 @media screen and (max-width: 600px) {
     .flip-container {
         width: 50%;
         height: 50vw;
+        
+        .back {
+            height: 50vw;
+        }
+    }
+    
+    #main-nav.target + .page-wrap #image-holder .flip-container {
+        height: 50vw;
+        
+        .back {
+            height: 50vw;
+        }
     }
 }
 @media screen and (max-width: 400px) {
     .flip-container {
         width: 100%;
         height: 100vw;
+        
+        .back {
+            height: 100vw;
+        }
+    }
+    
+    #main-nav.target + .page-wrap #image-holder .flip-container {
+        height: 100vw;
+        
+        .back {
+            height: 100vw;
+        }
     }
 }
 

@@ -26,7 +26,7 @@ body {
   height: 100%;
   background: #2c3e50;
   overflow-y: auto;
-  transition: width 0.3s ease; }
+  transition: width 0.3s ease, z-index 0.3s ease; }
   .navigation a {
     display: block;
     background: linear-gradient(#394e63, #334658);
@@ -44,31 +44,48 @@ body {
       background: linear-gradient(#506c89, #415971); }
   .navigation:after {
     content: "";
+    z-index: 3;
     position: absolute;
     top: 0;
-    right: 0;
+    right: -34px;
     height: 100%;
     width: 34px;
-    background: linear-gradient(left, transparent, rgba(0, 0, 0, 0.4));
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%, transparent), color-stop(100%, rgba(0, 0, 0, 0.4)), color-stop(40%, transparent));
+    transition: right 0.3s ease;
+    background: linear-gradient(right, transparent, rgba(0, 0, 0, 0.6));
+    background: -webkit-gradient(linear, right top, left top, color-stop(0%, transparent), color-stop(100%, rgba(0, 0, 0, 0.6)), color-stop(60%, transparent));
     /* Chrome, Safari4+ */
-    background: -webkit-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.4) 100%, transparent 40%);
+    background: -webkit-linear-gradient(right, transparent 0%, rgba(0, 0, 0, 0.6) 100%, transparent 40%);
     /* Chrome10+, Safari5.1+ */
-    background: -moz-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.4) 100%, transparent 40%);
+    background: -moz-linear-gradient(right, transparent 0%, rgba(0, 0, 0, 0.6) 100%, transparent 40%);
     /* FF3.6+ */ }
 
-#main-nav.target {
-  width: 20%; }
+#main-nav {
+  z-index: 0;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.3s ease, z-index 0.3s ease, width 0.3s ease; }
 
-#main-nav.target + .page-wrap {
-  width: 80%; }
+#main-nav.target {
+  width: 20%;
+  z-index: 4;
+  opacity: 1; }
+  #main-nav.target + .page-wrap {
+    width: 80%; }
+    #main-nav.target + .page-wrap .head-wrap {
+      left: 20%; }
+    #main-nav.target + .page-wrap #image-holder .flip-container {
+      height: calc(20vw * 0.8); }
+      #main-nav.target + .page-wrap #image-holder .flip-container .back {
+        height: calc(20vw * 0.8); }
 
 .head-wrap {
   position: fixed;
-  z-index: 1000;
+  z-index: 5;
   background-color: rgba(40, 40, 46, 0.4);
   top: 0;
-  width: 400px; }
+  left: 0;
+  width: 400px;
+  transition: left 0.3s ease; }
 
 #logo {
   color: #ffffff;
@@ -100,6 +117,7 @@ body {
   width: 20%;
   height: 20vw;
   float: left;
+  transition: height 0.3s ease, width 0.3s ease;
   animation-duration: 0.5s;
   moz-animation-duration: 0.5s;
   webkit-animation-duration: 0.5s;
@@ -108,22 +126,58 @@ body {
 @media screen and (max-width: 1000px) {
   .flip-container {
     width: 25%;
-    height: 25vw; } }
+    height: 25vw; }
+    .flip-container .back {
+      height: 25vw; }
+  #main-nav.target + .page-wrap #image-holder .flip-container {
+    height: calc(25vw * 0.8); }
+    #main-nav.target + .page-wrap #image-holder .flip-container .back {
+      height: calc(25vw * 0.8); } }
+
+@media screen and (max-width: 850px) {
+  #main-nav.target {
+    width: 185px; }
+    #main-nav.target + .page-wrap {
+      width: 100%; }
+      #main-nav.target + .page-wrap .head-wrap {
+        left: 185px; }
+      #main-nav.target + .page-wrap #image-holder .flip-container {
+        height: 25vw; }
+        #main-nav.target + .page-wrap #image-holder .flip-container .back {
+          height: 25vw; } }
 
 @media screen and (max-width: 800px) {
   .flip-container {
     width: 33.33%;
-    height: 33.33vw; } }
+    height: 33.33vw; }
+    .flip-container .back {
+      height: 33.33vw; }
+  #main-nav.target + .page-wrap #image-holder .flip-container {
+    height: 33.33vw; }
+    #main-nav.target + .page-wrap #image-holder .flip-container .back {
+      height: 33.33vw; } }
 
 @media screen and (max-width: 600px) {
   .flip-container {
     width: 50%;
-    height: 50vw; } }
+    height: 50vw; }
+    .flip-container .back {
+      height: 50vw; }
+  #main-nav.target + .page-wrap #image-holder .flip-container {
+    height: 50vw; }
+    #main-nav.target + .page-wrap #image-holder .flip-container .back {
+      height: 50vw; } }
 
 @media screen and (max-width: 400px) {
   .flip-container {
     width: 100%;
-    height: 100vw; } }
+    height: 100vw; }
+    .flip-container .back {
+      height: 100vw; }
+  #main-nav.target + .page-wrap #image-holder .flip-container {
+    height: 100vw; }
+    #main-nav.target + .page-wrap #image-holder .flip-container .back {
+      height: 100vw; } }
 
 /* flip the pane when hovered */
 .flip-container.flippy .flipper {
