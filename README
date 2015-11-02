@@ -1,6 +1,9 @@
 I hope you enjoy checking out my I Heart Norfolk project.
 
-Instructions for reference:
+This was mainly tested in Chrome 46.0.2490.80 (64-bit) on Mac OSX 10.11.1 El Capitan.
+
+
+Instructions for my own reference:
 
 Create an "I heart Norfolk" demo site.
 
@@ -17,7 +20,8 @@ Create an "I heart Norfolk" demo site.
 
 ~~Use the Instagram API to pull in photos:~~
     ~~tagged with #norfolkva or #fieldguidenfk~~
-    ~~from the growinteractive user account.~~ (Does this mean #growinteractive or something else?)
+    ~~from the growinteractive user account.~~
+    (Does this mean #growinteractive or something else?)
 
 ~~Consolidate photos so that there are no duplicates and sort by newest first.~~
 (Do they mean duplicates that have both hashtags? or actually somehow checking the images?)

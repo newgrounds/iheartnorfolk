@@ -29,7 +29,7 @@ var Insta = (function () {
     
     // download image & display
     function downloadImage (item, pos) {
-        console.log(pos);
+        //console.log(pos);
         // image url, use the smaller one so we don't eat up memory
         var url = item.images.low_resolution.url;
         // format date
@@ -86,6 +86,9 @@ var Insta = (function () {
             
             // sort and display images once they're all loaded
             if (numLoaded >= pics.length) {
+                // hide loading spinner
+                $(".spinner").css({'opacity': 0});
+                
                 // move all children from temp-holder to image-holder
                 $("#temp-holder").children().appendTo("#image-holder");
                 
@@ -109,7 +112,7 @@ var Insta = (function () {
     
     // extend Arrays to be able to push unique items
     Array.prototype.pushUniqueOrdered = function (item) {
-        console.log(item);
+        //console.log(item);
         
         // if the array is empty then just add
         if (this.length === 0) {
@@ -163,6 +166,9 @@ var Insta = (function () {
         // keep track of selected filter
         currentFilter = filter;
         
+        // show loading spinner
+        $(".spinner").css({'opacity': 1});
+        
         // number to remove
         var numRemove = $("#image-holder").children().length;
         
@@ -209,7 +215,7 @@ var Insta = (function () {
             url: tagURLs[tag],
             success: function (result) {
                 if (result.data !== null) {
-                    console.log(result.pagination);
+                    //console.log(result.pagination);
                     // iterate over the images
                     for (var d = 0; d < result.data.length; d++) {
                         var pic = result.data[d];
@@ -248,6 +254,9 @@ var Insta = (function () {
     
     // setup the page
     function setup () {
+        // show loading spinner
+        $(".spinner").css({'opacity': 1});
+        
         // for displaying the sidebar
         $(".ham-menu").click(function () {
             $("#main-nav").toggleClass("target");
@@ -255,23 +264,27 @@ var Insta = (function () {
         
         // remove transitions from images
         var resizeBeginDebounce = debounce(function () {
-            console.log("removing transitions");
+            //console.log("removing transitions");
             $(".flip-container").css({'transition': 'none'});
         }, 250, true);
         
         // add transitions back onto images
         var resizeEndDebounce = debounce(function () {
-            console.log("adding transitions");
+            //console.log("adding transitions");
             $(".flip-container").css({'transition': 'height 0.3s ease, width 0.3s ease'});
         }, 250);
         
+        // handlers for window resizing, it's okay, we're debouncing
         $(window).resize(resizeBeginDebounce);
         $(window).resize(resizeEndDebounce);
         
         // determine when we hit the bottom of the page
         $(window).scroll(function () {
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                console.log("hit bottom");
+                //console.log("hit bottom");
+                
+                // show loading spinner
+                $(".spinner").css({'opacity': 1});
                 
                 // TODO: make sure we don't double load when we have agressive scrollers
                 //  ... on second thought I kind of like that it loads a faster

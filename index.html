@@ -9,6 +9,7 @@
         <title>I Heart Norfolk</title>
     
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/loading.css">
         <link rel="stylesheet" href="css/animate.css">
     </head>
     <body>
@@ -28,15 +29,27 @@
                 <div id="logo">I <span class="heart">&#9829;</span> Norfolk</div>
             </div>
             
+            <div class="spinner">
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+            
             <div id="image-holder"></div>
             <div id="temp-holder"></div>
         </div>
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="js/index.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <script>
-            Insta.setup();
-            Insta.filterClick("all", $("#all-btn"));
+            $(document).ready(function () {
+                Insta.setup();
+                Insta.filterClick("all", $("#all-btn"));
+            });
         </script>
     </body>
 </html>
