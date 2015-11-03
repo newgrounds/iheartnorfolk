@@ -2,6 +2,12 @@
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 body {
@@ -101,10 +107,14 @@ $anim-speed: 0.3s;
     } 
 }
 
+@mixin bg-gradient {
+    background: linear-gradient(rgba(40,40,46,0.6), rgba(40,40,46,0.4));
+}
+
 .head-wrap {
     position: fixed;
     z-index: 5;
-    background-color: rgba(40,40,46,0.4);
+    @include bg-gradient;
     top: 0;
     left: 0;
     width: 400px;
@@ -123,9 +133,38 @@ $anim-speed: 0.3s;
     color: red;
 }
 
+#album {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    color: white;
+    font-size: 4em;
+    @include bg-gradient;
+    z-index: 5;
+    
+    /* when a valid draggable is hovering around */
+    &.drop-hover {
+        color: #77DD77;
+        
+        /* when dropping will remove from favorites */
+        &.remove {
+            color: #DD7777;
+        }
+    }
+}
+
 .pic-info {
     padding: 10px;
     color: white;
+    
+    p {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        -o-user-select: text;
+        user-select: text;
+    }
 }
 
 #image-holder {
@@ -138,6 +177,26 @@ $anim-speed: 0.3s;
 #temp-holder {
     display: none;
     visibility: hidden;
+}
+
+.drag-pic {
+    width: 100px;
+    /*z-index: 6;
+    opacity: 0.65;*/
+}
+
+.fav-pic {
+    &:after {
+        content: "\f005";
+        font-family: FontAwesome;
+        font-size: 2em;
+        text-shadow: 0px 0px 5px black;
+        position: relative;
+        top: 0;
+        padding: 5px;
+        float: right;
+        color: gold;
+    }
 }
 
 /* entire container, keeps perspective */
@@ -290,4 +349,5 @@ $anim-speed: 0.3s;
 /* back, initially hidden pane */
 .back {
     transform: rotateY(180deg);
+    height: 20vw;
 }

@@ -3,6 +3,8 @@ I hope you enjoy checking out my I Heart Norfolk project.
 This was mainly tested in Chrome 46.0.2490.80 (64-bit) on Mac OSX 10.11.1 El Capitan.
 
 
+
+
 Instructions for my own reference:
 
 Create an "I heart Norfolk" demo site.
@@ -20,11 +22,9 @@ Create an "I heart Norfolk" demo site.
 
 ~~Use the Instagram API to pull in photos:~~
     ~~tagged with #norfolkva or #fieldguidenfk~~
-    ~~from the growinteractive user account.~~
-    (Does this mean #growinteractive or something else?)
+    ~~from the growinteractive user account (@growinteractive).~~
 
 ~~Consolidate photos so that there are no duplicates and sort by newest first.~~
-(Do they mean duplicates that have both hashtags? or actually somehow checking the images?)
 
 ~~After the javascript has loaded photos from the API, animate photos onto the screen.~~
 
@@ -37,21 +37,22 @@ Create an "I heart Norfolk" demo site.
     ~~All~~
     ~~#norfolkva~~
     ~~#fieldguidenfk~~
-    ~~#growinteractive~~
+    ~~@growinteractive~~
 
 Delivery should include a links to both the staged website and code repository.
 
 
 
+
 Extra Credit:
 
-Allow user to "favorite" photos so that your app remembers selections upon subsequent visits.
+~~Allow user to "favorite" photos so that your app remembers selections upon subsequent visits.~~
 
 Make the "favorite" action tie into Instagram favorites by allowing the user to authenticate via Oauth.
 
-Make favoriting action triggered by dragging photo to a photo album icon.
+~~Make favoriting action triggered by dragging photo to a photo album icon.~~
 
-Make website responsive for mobile.
+~~Make website responsive for mobile.~~
 
 Follow as many of Google’s Material Design specifications as seem applicable. 
     https://www.google.com/design/spec/material-design/introduction.html

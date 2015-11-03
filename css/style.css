@@ -1,7 +1,12 @@
 * {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
 
 body {
   background-color: #28282e; }
@@ -81,7 +86,7 @@ body {
 .head-wrap {
   position: fixed;
   z-index: 5;
-  background-color: rgba(40, 40, 46, 0.4);
+  background: linear-gradient(rgba(40, 40, 46, 0.6), rgba(40, 40, 46, 0.4));
   top: 0;
   left: 0;
   width: 400px;
@@ -97,9 +102,31 @@ body {
 .heart {
   color: red; }
 
+#album {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  color: white;
+  font-size: 4em;
+  background: linear-gradient(rgba(40, 40, 46, 0.6), rgba(40, 40, 46, 0.4));
+  z-index: 5;
+  /* when a valid draggable is hovering around */ }
+  #album.drop-hover {
+    color: #77DD77;
+    /* when dropping will remove from favorites */ }
+    #album.drop-hover.remove {
+      color: #DD7777; }
+
 .pic-info {
   padding: 10px;
   color: white; }
+  .pic-info p {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    -o-user-select: text;
+    user-select: text; }
 
 #image-holder {
   top: 100px;
@@ -110,6 +137,22 @@ body {
 #temp-holder {
   display: none;
   visibility: hidden; }
+
+.drag-pic {
+  width: 100px;
+  /*z-index: 6;
+    opacity: 0.65;*/ }
+
+.fav-pic:after {
+  content: "\f005";
+  font-family: FontAwesome;
+  font-size: 2em;
+  text-shadow: 0px 0px 5px black;
+  position: relative;
+  top: 0;
+  padding: 5px;
+  float: right;
+  color: gold; }
 
 /* entire container, keeps perspective */
 .flip-container {
@@ -214,4 +257,5 @@ body {
 
 /* back, initially hidden pane */
 .back {
-  transform: rotateY(180deg); }
+  transform: rotateY(180deg);
+  height: 20vw; }
