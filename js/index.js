@@ -456,7 +456,7 @@ var Insta = (function () {
             
             // load favorites from localStorage
             var storedFavs = localStorage.favorites;
-            if (storedFavs !== null) {
+            if (storedFavs !== undefined) {
                 favs = new Set(JSON.parse(localStorage.favorites));
                 //console.log(favs);
             }
