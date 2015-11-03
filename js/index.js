@@ -212,6 +212,11 @@ var Insta = (function () {
             // allow more loading
             ignoreScroll = false;
             
+            // hide the spinner if there are no images to download
+            if (pics.length === 0) {
+                $(".spinner").css({'opacity': 0});
+            }
+            
             // download all images
             for (var p = 0; p < pics.length; p++) {
                 downloadImage(pics[p]);
