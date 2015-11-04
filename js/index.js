@@ -29,25 +29,6 @@ var Insta = (function () {
         return new Date(ts * 1000);
     }
     
-    // Returns a function, that, as long as it continues to be invoked, will not
-    // be triggered. The function will be called after it stops being called for
-    // N milliseconds. If `immediate` is passed, trigger the function on the
-    // leading edge, instead of the trailing.
-    function debounce(func, wait, immediate) {
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-        };
-    }
-    
     // extend Arrays to be able to push unique items
     Array.prototype.pushUniqueOrdered = function (item) {
         //console.log(item);
@@ -406,22 +387,6 @@ var Insta = (function () {
         $(".ham-menu").click(function () {
             $("#main-nav").toggleClass("target");
         });
-        
-        // remove transitions from images
-        var resizeBeginDebounce = debounce(function () {
-            //console.log("removing transitions");
-            $(".flip-container").css({'transition': 'none'});
-        }, 250, true);
-        
-        // add transitions back onto images
-        var resizeEndDebounce = debounce(function () {
-            //console.log("adding transitions");
-            $(".flip-container").css({'transition': 'height 0.3s ease, width 0.3s ease'});
-        }, 250);
-        
-        // handlers for window resizing, it's okay, we're debouncing
-        $(window).resize(resizeBeginDebounce);
-        $(window).resize(resizeEndDebounce);
         
         // determine when we hit the bottom of the page
         $(window).scroll(function () {
