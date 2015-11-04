@@ -319,6 +319,7 @@ var Insta = (function () {
         $container.attr("storedInfo", JSON.stringify(item));
         // make the image draggable
         $container.draggable({
+            containment: "window",
             cursorAt: { top: 50, left: 50 },
             helper: dragHelper
         });
