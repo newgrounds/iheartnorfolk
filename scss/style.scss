@@ -1,5 +1,6 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     margin: 0;
     padding: 0;
     
@@ -43,22 +44,31 @@ $anim-speed: 0.3s;
     
     a {
         display: block;
-        background: linear-gradient(#394e63, #334658);
         color: #fff;
-        border-top: 1px solid #506c89;
-        border-bottom: 1px solid #2E2E2E;
-        /*color: #888;*/
         padding: 15px;
         text-decoration: none;
         font-size: 1.2em;
         
+        .fa-check {
+            color: #566573;
+        }
+        
+        .fa-circle {
+            color: #1f2b37;
+        }
+        
         &:hover, &:focus {
-            /*color: #fff;*/
             background: linear-gradient(#506c89, #415971);
         }
         
         &.active {
-            background: linear-gradient(#506c89, #415971);
+            .fa-check {
+                color: white;
+            }
+            
+            .fa-circle {
+                color: #ea2e49;
+            }
         }
     }
     
@@ -117,6 +127,7 @@ $anim-speed: 0.3s;
     color: #ffffff;
     display: inline-block;
     font-size: 3em;
+    font-weight: 300;
     padding-left: 5%;
     line-height: 2em;
 }
@@ -173,6 +184,7 @@ $anim-speed: 0.3s;
 
 .drag-pic {
     width: 100px;
+    box-shadow: 1px 1px 3px 2px rgba(0,0,0,.5);
     /*z-index: 6;
     opacity: 0.65;*/
 }
@@ -287,4 +299,21 @@ $anim-speed: 0.3s;
 /* back, initially hidden pane */
 .back {
     transform: rotateY(180deg);
+    font-weight: 0;
+    
+    /*p.un {
+        color: white;
+    }
+    
+    p.loc {
+        color: rgb(230,230,230);
+    }
+    
+    p.date {
+        color: rgb(205,205,205);
+    }
+    
+    p.caption {
+        color: rgb(180,180,180);
+    }*/
 }

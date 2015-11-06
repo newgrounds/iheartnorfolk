@@ -18,6 +18,8 @@ var Insta = (function () {
     var tagURLs = {};
     // ignore scroll while the screen autoscrolls
     var ignoreScroll = false;
+    // instagram access token
+    var token = undefined;
     
     // flip image
     function flip (obj) {
@@ -29,9 +31,31 @@ var Insta = (function () {
         return new Date(ts * 1000);
     }
     
+    // generate a random color
+    function generateRandomColor () {
+        return Math.floor(((Math.random() * 16777215) + 16777215) / 2).toString(16);
+    }
+    
+    function contrastingColor (color) {
+        return (luma(color) >= 165) ? '000' : 'fff';
+    }
+    function luma (color) { // color can be a hx string or an array of RGB values 0-255
+        var rgb = (typeof color === 'string') ? hexToRGBArray(color) : color;
+        return (0.2126 * rgb[0]) + (0.7152 * rgb[1]) + (0.0722 * rgb[2]); // SMPTE C, Rec. 709 weightings
+    }
+    function hexToRGBArray (color) {
+        if (color.length === 3)
+            color = color.charAt(0) + color.charAt(0) + color.charAt(1) + color.charAt(1) + color.charAt(2) + color.charAt(2);
+        else if (color.length !== 6)
+            throw('Invalid hex color: ' + color);
+        var rgb = [];
+        for (var i = 0; i <= 2; i++)
+            rgb[i] = parseInt(color.substr(i * 2, 2), 16);
+        return rgb;
+    }
+    
     // extend Arrays to be able to push unique items
     Array.prototype.pushUniqueOrdered = function (item) {
-        //console.log(item);
         //console.log(item);
         
         // if the array is empty then just add
@@ -66,6 +90,22 @@ var Insta = (function () {
         //downloadImage(item, timeIndex);
         return true;
     };
+    
+    // get a url parameter
+    /*function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location),
+            sURLVariables = sPageURL.split('#'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    }*/
     
     /*
     * DRAG-DROP BEGIN------------------------------------------------
@@ -103,6 +143,9 @@ var Insta = (function () {
             $(ui.draggable).addClass("fav-pic");
         }
         
+        // like or unlike on Instagram
+        //like(pic_id);
+        
         // store favorites locally
         localStorage.favorites = JSON.stringify(Array.from(favs));
     }
@@ -113,6 +156,21 @@ var Insta = (function () {
     /*
     * FILTER BEGIN---------------------------------------------------
     */
+    function toggleTarget (remove) {
+        if (remove === undefined || remove === null || remove === false) {
+            $("#main-nav").toggleClass("target");
+        } else {
+            $("#main-nav").removeClass("target");
+        }
+        
+        // switch icon
+        if ($("#main-nav").hasClass("target")) {
+            $(".ham-menu span").removeClass("fa-bars").addClass("fa-times");
+        } else {
+            $(".ham-menu span").removeClass("fa-times").addClass("fa-bars");
+        }
+    }
+    
     // handle clicks on the different filters
     function filterClick (filter, btn) {
         // bring us back to the top
@@ -125,7 +183,7 @@ var Insta = (function () {
         $(btn).addClass("active");
         
         // close nav menu
-        $("#main-nav").removeClass("target");
+        toggleTarget(true);
         
         // set urls back to default
         tagURLs.norfolkva = "https://api.instagram.com/v1/tags/norfolkva/media/recent?client_id=" + client_id;
@@ -313,21 +371,25 @@ var Insta = (function () {
         var $flipper = $("<div>", {class: "flipper"});
         var $front = $("<div>", {class: "front"});
         var $back = $("<div>", {class: "back"});
+        var col = generateRandomColor();
+        var textCol = contrastingColor(col);
+        $back.css("background-color", '#' + col);
         
         // fill in content for the back
         var $backContent = $("<div>", {class: "pic-info"});
+        $backContent.css("color", '#' + textCol);
         // username
         if (item.user) {
-            $backContent.append($("<p>"+item.user.username+"</p><br/>"));
+            $backContent.append($("<p class='un'>"+item.user.username+"</p><br/>"));
         }
         // location
         if (item.location) {
-            $backContent.append($("<p>"+item.location.name+"</p><br/>"));
+            $backContent.append($("<p class='loc'>"+item.location.name+"</p><br/>"));
         }
-        $backContent.append($("<p>"+date+"</p><br/>"));
+        $backContent.append($("<p class='date'>"+date+"</p><br/>"));
         // caption
         if (item.caption) {
-            $backContent.append($("<p>"+item.caption.text+"</p>"));
+            $backContent.append($("<p class='caption'>"+item.caption.text+"</p>"));
         }
         
         // nest divs
@@ -346,16 +408,13 @@ var Insta = (function () {
             
             // sort and display images once they're all loaded
             if (numLoaded >= pics.length) {
-                // sort the images in temp-holder
-                var sorted = $("#temp-holder").children().sort(function (a, b) {
-                    return JSON.parse($(a).attr("storedInfo")).created_time < JSON.parse($(b).attr("storedInfo")).created_time;
-                });
+                // sort the images in temp-holder & move them to image-holder
+                $("#temp-holder").children().sort(function (a, b) {
+                    return JSON.parse($(b).attr("storedInfo")).created_time - JSON.parse($(a).attr("storedInfo")).created_time;
+                }).appendTo("#image-holder");;
                 
                 // hide loading spinner
                 $(".spinner").css({'opacity': 0});
-                
-                // move all children from temp-holder to image-holder
-                sorted.appendTo("#image-holder");
                 
                 // animate the children... there's something weird about this comment
                 // ... especially around halloween
@@ -378,6 +437,60 @@ var Insta = (function () {
     * DOWNLOAD END---------------------------------------------------
     */
     
+    
+    /*
+    * INSTAGRAM OAUTH BEGIN------------------------------------------
+    */
+    
+    // sign in
+    /*function signIn () {//http://adamgressen.me/iheartnorfolk
+        window.location.replace("https://instagram.com/oauth/authorize/?client_id=" + client_id + "&redirect_uri=http://localhost:8000&response_type=token&scope=likes");
+    }
+    
+    // sign out
+    function signOut () {
+        token = undefined;
+        localStorage.token = undefined;
+        $("#insta-login").html("Sign In");
+    }
+    
+    // handle signing in or out
+    function signInOrOut () {
+        if (token !== undefined) {
+            // sign out
+            signOut();
+        } else {
+            // sign in
+            signIn();
+        }
+    }
+    
+    function likeCallback (resp) {
+        console.log(resp);
+    }
+    
+    // like an image on Instagram
+    function like (media_id) {
+        if (token !== undefined) {
+            $.ajax({
+               type: "POST",
+               cache: false,
+               url: 'https://api.instagram.com/v1/media/'+media_id+'/likes?access_token='+token+'&callback=likeCallback',
+               dataType: "jsonp",
+               success: function(data) {
+                   console.log(data);
+                   console.log('success liked');
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                   console.log( "Feed Error! jqXHR: " + jqXHR + " textStatus: " + textStatus + " errorThrown: " + errorThrown );
+               }
+            });
+        }
+    }*/
+    /*
+    * INSTAGRAM OAUTH END--------------------------------------------
+    */
+    
     // setup the page
     function setup () {
         // show loading spinner
@@ -385,7 +498,7 @@ var Insta = (function () {
         
         // for displaying the sidebar
         $(".ham-menu").click(function () {
-            $("#main-nav").toggleClass("target");
+            toggleTarget();
         });
         
         // determine when we hit the bottom of the page
@@ -421,9 +534,24 @@ var Insta = (function () {
                 out: function (event, ui) {
                     $("#album").removeClass("drop-hover remove");
                 },
-                /*hoverClass: "drop-hover",*/
                 drop: dropHandler
             });
+            
+            // handle token in url
+            /*var url_token = getUrlParameter('access_token');
+            token = localStorage.token;
+            if (url_token !== undefined) {
+                // store token
+                localStorage.token = url_token;
+                // show sign out
+                $("#insta-login").html("Sign Out");
+            } else if (token === undefined) {
+                // show sign in
+                $("#insta-login").html("Sign In");
+            } else {
+                // show sign out
+                $("#insta-login").html("Sign Out");
+            }*/
             
             // load favorites from localStorage
             var storedFavs = localStorage.favorites;
@@ -434,11 +562,13 @@ var Insta = (function () {
         } else {
             console.log("no localStorage support -- favoriting disabled");
             $("#album").hide();
+            //$("#insta-login").hide();
         }
     }
     
     // return things that need to be accessible in the HTML
     return {
+        //signInOrOut: signInOrOut,
         filterClick: filterClick,
         getInstaPics: getInstaPics,
         flip: flip,

@@ -12,26 +12,58 @@
         <link rel="stylesheet" href="css/loading.css">
         <link rel="stylesheet" href="css/animate.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:0,300,500' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <nav id="main-nav" class="navigation">
-           <a id="all-btn" onclick="Insta.filterClick('all', this)" class="active">all</a>
-           <a onclick="Insta.filterClick('norfolkva', this)">#norfolkva</a>
-           <a onclick="Insta.filterClick('fieldguidenfk', this)">#fieldguidenfk</a>
-           <a onclick="Insta.filterClick('growinteractive', this)">@growinteractive</a>
-           <a onclick="Insta.filterClick('favorites', this)">favorites</a>
+            <a id="all-btn" onclick="Insta.filterClick('all', this)" class="active">
+                <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x"></i>
+                </span>
+                all
+            </a>
+            <a id="fav-btn" onclick="Insta.filterClick('favorites', this)">
+                <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x"></i>
+                </span>
+                favorites
+            </a>
+            <a onclick="Insta.filterClick('norfolkva', this)">
+                <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x"></i>
+                </span>
+                #norfolkva
+            </a>
+            <a onclick="Insta.filterClick('fieldguidenfk', this)">
+                <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x"></i>
+                </span>
+                #fieldguidenfk
+            </a>
+            <a onclick="Insta.filterClick('growinteractive', this)">
+                <span class="fa-stack fa-md">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x"></i>
+                </span>
+                @growinteractive
+            </a>
+            <!--<a id="insta-login" onclick="Insta.signInOrOut()">Sign In</a>-->
         </nav>
         
         <div class="page-wrap">
             <div class="head-wrap">
-                <a href="#main-nav" class="ham-menu">
-                    &#9776;
+                <a class="ham-menu">
+                    <span class="fa fa-bars"></span>
                 </a>
                 
-                <div id="logo">I <span class="heart">&#9829;</span> Norfolk</div>
+                <div id="logo">I <span class="heart fa fa-heart"></span> Norfolk</div>
             </div>
             
-            <div id="album"><i class="fa fa-instagram"></i></div>
+            <div id="album" onclick="Insta.filterClick('favorites', $('#fav-btn'))"><i class="fa fa-star"></i></div>
             
             <div class="spinner">
                 <i></i>
