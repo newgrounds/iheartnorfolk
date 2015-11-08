@@ -19,7 +19,7 @@ var Insta = (function () {
     // ignore scroll while the screen autoscrolls
     var ignoreScroll = false;
     // instagram access token
-    var token = undefined;
+    var token;
     
     // flip image
     function flip (obj) {
@@ -120,7 +120,7 @@ var Insta = (function () {
     
     // drop handler
     function dropHandler (event, ui) {
-        $("#album").removeClass("drop-hover remove");
+        $("#favorite").removeClass("drop-hover remove");
         
         //console.log(ui);
         var pic_id = JSON.parse($(ui.draggable).attr("storedInfo")).id;
@@ -411,7 +411,7 @@ var Insta = (function () {
                 // sort the images in temp-holder & move them to image-holder
                 $("#temp-holder").children().sort(function (a, b) {
                     return JSON.parse($(b).attr("storedInfo")).created_time - JSON.parse($(a).attr("storedInfo")).created_time;
-                }).appendTo("#image-holder");;
+                }).appendTo("#image-holder");
                 
                 // hide loading spinner
                 $(".spinner").css({'opacity': 0});
@@ -522,17 +522,17 @@ var Insta = (function () {
         
         // make sure localStorage is available
         if(typeof(Storage) !== undefined) {
-            // handle drops on the album icon for favoriting
-            $("#album").droppable({
+            // handle drops on the favorite icon for favoriting
+            $("#favorite").droppable({
                 over: function (event, ui) {
-                    $("#album").addClass("drop-hover");
+                    $("#favorite").addClass("drop-hover");
                     
                     if (favs.has(JSON.parse($(ui.draggable).attr("storedInfo")).id)) {
-                        $("#album").addClass("remove");
+                        $("#favorite").addClass("remove");
                     }
                 },
                 out: function (event, ui) {
-                    $("#album").removeClass("drop-hover remove");
+                    $("#favorite").removeClass("drop-hover remove");
                 },
                 drop: dropHandler
             });
@@ -561,7 +561,7 @@ var Insta = (function () {
             }
         } else {
             console.log("no localStorage support -- favoriting disabled");
-            $("#album").hide();
+            $("#favorite").hide();
             //$("#insta-login").hide();
         }
     }
